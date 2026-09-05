@@ -313,7 +313,7 @@ hehnerBitDepth fuel frac = length (toSternBrocotPath fuel frac)
 public export
 hehnerBitsToStates : Nat -> Nat
 hehnerBitsToStates Z = 1
-hehnerBitsToStates (S k) = 2 * hehnerBitsToStates k
+hehnerBitsToStates (S k) = hehnerBitsToStates k + hehnerBitsToStates k
 
 ||| Hehner Chance Scale: Computes reciprocal unit chance c = 1 / [s] from state count s.
 public export

@@ -8,85 +8,85 @@ import public Core.TransformMultiset
 import Data.Vect
 import Data.List
 import Language.Reflection
-import public Math.HolonomyPhase
-import public Math.CliffordAlgebra
-import public Math.ConstructiveBaryogenesis
-import public Math.ActionPrinciple
-import public Math.Magnetohydrodynamics
-import public Math.SuperconductingGap
-import public Math.Infinitesimal
+import Math.HolonomyPhase
+import Math.CliffordAlgebra
+import Math.ConstructiveBaryogenesis
+import Math.ActionPrinciple
+import Math.Magnetohydrodynamics
+import Math.SuperconductingGap
+import Math.Infinitesimal
 
-import public Math.OscillatingReactions
-import public Math.QuantumPotential
-import public Math.ThermalDistribution
-import public Math.VacuumDispersion
-import public Math.RetardedDipoleForce
-import public Math.DegeneracyMassLimit
-import public Math.TopologicalGaugeMass
-import public Math.ChiralAnomaly
-import public Math.CosmicGenesis
-import public Math.FluctuationTheorem
-import public Math.RelativisticSpinor
-import public Math.HallViscosity
-import public Math.BlackHolePhaseTransition
-import public Math.HorizonRadiation
-import public Math.ActionPotentialKinetics
-import public Math.HolographicBound
-import public Math.HydrogenBonding
-import public Math.PeakBindingEnergy
-import public Math.PhaseInvarianceMeasure
-import public Math.WorkFreeEnergyEquality
-import public Math.CavityQuantumElectrodynamics
-import public Math.RotatingSpacetime
-import public Math.MultiTerminalConduction
-import public Math.InformationErasureCost
-import public Math.MacromolecularChirality
-import public Math.EnzymeKinetics
-import public Math.AllostericCooperativity
-import public Math.ReciprocalTransport
-import public Math.EvaporationEntropyCurve
-import public Math.SymmetryBreakingMass
-import public Math.VacuumPolarization
+import Math.OscillatingReactions
+import Math.QuantumPotential
+import Math.ThermalDistribution
+import Math.VacuumDispersion
+import Math.RetardedDipoleForce
+import Math.DegeneracyMassLimit
+import Math.TopologicalGaugeMass
+import Math.ChiralAnomaly
+import Math.CosmicGenesis
+import Math.FluctuationTheorem
+import Math.RelativisticSpinor
+import Math.HallViscosity
+import Math.BlackHolePhaseTransition
+import Math.HorizonRadiation
+import Math.ActionPotentialKinetics
+import Math.HolographicBound
+import Math.HydrogenBonding
+import Math.PeakBindingEnergy
+import Math.PhaseInvarianceMeasure
+import Math.WorkFreeEnergyEquality
+import Math.CavityQuantumElectrodynamics
+import Math.RotatingSpacetime
+import Math.MultiTerminalConduction
+import Math.InformationErasureCost
+import Math.MacromolecularChirality
+import Math.EnzymeKinetics
+import Math.AllostericCooperativity
+import Math.ReciprocalTransport
+import Math.EvaporationEntropyCurve
+import Math.SymmetryBreakingMass
+import Math.VacuumPolarization
 
-import public Math.PlasmaRecombination
-import public Math.ElectromagneticEnergyFlow
-import public Math.StringTension
-import public Math.QuantumTeleportation
-import public Math.RationalKepler
-import public Math.RationalRefraction
-import public Math.RibosomalTranslation
-import public Math.EntanglementAreaLaw
-import public Math.GravitationalCollapseLimit
-import public Math.TopologicalInsulator
-import public Math.ToricCode
-import public Math.TripleAlphaNucleosynthesis
-import public Math.NucleicAcidBasePairing
-import public Math.CosmologicalWaveEquation
-import public Math.DensityMatrix
-import public Math.GalacticRotationCurve
-import public Math.FlavorMixing
-import public Math.NeutrinoOscillation
-import public Math.MuonG2Anomaly
-import public Math.LawAlgebra
-import public Math.SubstrateMetricTensor55
-import public Math.MultisetMetricTensor55
-import public Math.FourGeometries
-import public Math.FractionalQuantumHall
-import public Math.GalacticRotationCurve
-import public Math.GaugeSpinorCoupling
-import public Math.GravitationalWaveDynamics
-import public Math.HelmholtzFreeEnergy
-import public Math.LinAlgebra.TernaryClassifier
-import public Math.ExclusionPrinciple
-import public Math.QuantumTransition
-import public Math.RGDecimator
-import public Math.RationalTrig
-import public Math.RenormalizationInformationFlow
-import public Math.PrefixCodeOptimality
-import public Math.SuperconductingFluxQuantization
-import public Math.TopologicalChernNumber
-import public Math.ToroidalAstrodynamics
-import public Math.WilsonPolyhedra
+import Math.PlasmaRecombination
+import Math.ElectromagneticEnergyFlow
+import Math.StringTension
+import Math.QuantumTeleportation
+import Math.RationalKepler
+import Math.RationalRefraction
+import Math.RibosomalTranslation
+import Math.EntanglementAreaLaw
+import Math.GravitationalCollapseLimit
+import Math.TopologicalInsulator
+import Math.ToricCode
+import Math.TripleAlphaNucleosynthesis
+import Math.NucleicAcidBasePairing
+import Math.CosmologicalWaveEquation
+import Math.DensityMatrix
+import Math.GalacticRotationCurve
+import Math.FlavorMixing
+import Math.NeutrinoOscillation
+import Math.MuonG2Anomaly
+import Math.LawAlgebra
+import Math.SubstrateMetricTensor55
+import Math.MultisetMetricTensor55
+import Math.FourGeometries
+import Math.FractionalQuantumHall
+import Math.GalacticRotationCurve
+import Math.GaugeSpinorCoupling
+import Math.GravitationalWaveDynamics
+import Math.HelmholtzFreeEnergy
+import Math.LinAlgebra.TernaryClassifier
+import Math.ExclusionPrinciple
+import Math.QuantumTransition
+import Math.RGDecimator
+import Math.RationalTrig
+import Math.RenormalizationInformationFlow
+import Math.PrefixCodeOptimality
+import Math.SuperconductingFluxQuantization
+import Math.TopologicalChernNumber
+import Math.ToroidalAstrodynamics
+import Math.WilsonPolyhedra
 
 %default total
 

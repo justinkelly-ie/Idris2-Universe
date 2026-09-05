@@ -63,9 +63,15 @@ landauerTokenErasure target (MkVexel terms) (MkUniverseState (_ :: vmRest) deVec
 public export
 auditLandauerTokenConservationProof : Bool
 auditLandauerTokenConservationProof =
-  (intToBoxInt 210 == intToBoxInt 210) &&
-  (intToBoxInt 210 == intToBoxInt 210) &&
-  (intToBoxInt 7 == intToBoxInt 7)
+  let target = MkUnixel 1
+      active = MkVexel [(target, intToBoxInt 10)]
+      initialState = MkUniverseState {vmSize=27} {deSize=128} {dmSize=55}
+                        (replicate 27 (intToBoxInt 1))
+                        (replicate 128 (intToBoxInt 1))
+                        (replicate 55 (intToBoxInt 1))
+      (remVexel, newState) = landauerTokenErasure target active initialState
+  in (totalCosmicMultisetBudget (stateToCosmicMultiset initialState) == 210) &&
+     (totalCosmicMultisetBudget (stateToCosmicMultiset newState) == 210)
 
 
 

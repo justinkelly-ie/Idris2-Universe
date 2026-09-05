@@ -26,7 +26,7 @@ boxToTree (MkBox items) =
 public export
 treeToBox : Eq a => MultisetTree a -> Box a
 treeToBox Leaf = emptyBox
-treeToBox (Node l x c r) =
+treeToBox (Node _ l x c r) =
   let boxNode = insertBox x (intToBoxInt (cast c)) emptyBox
   in unionBox boxNode (unionBox (treeToBox l) (treeToBox r))
 

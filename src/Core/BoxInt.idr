@@ -95,7 +95,7 @@ fastNatPower2Fuel (S fuel) k =
   let half = halfNat k
       halfPow = fastNatPower2Fuel fuel half
       sq = halfPow * halfPow
-  in if isOddNat k then 2 * sq else sq
+  in if isOddNat k then sq + sq else sq
 
 ||| Fast O(log k) power of 2:
 public export

@@ -109,8 +109,8 @@ expandAndUnfoldBoxel3D {currentVM} {de} {dm} {nextScale} (MkUniverseState vmStat
 public export
 expandUniverseStateLinear : {vm, de, dm : Nat} ->
                             {newCells : Nat} ->
-                            UniverseState vm de dm ->
-                            Vect newCells BoxInt ->
+                            (1 currentState : UniverseState vm de dm) ->
+                            (budgetTokens : Vect newCells BoxInt) ->
                             UniverseState (vm + newCells) de dm
 expandUniverseStateLinear (MkUniverseState vm de dm) budgetTokens =
   let expandedVM = linearVectCombine vm budgetTokens
@@ -140,7 +140,7 @@ auditLinearExpansionConservationProof =
 public export
 stochasticLatticeRedistribution : {vm, de, dm : Nat} ->
                                   MagicMaxel vm ->
-                                  UniverseState vm de dm ->
+                                  (1 state : UniverseState vm de dm) ->
                                   UniverseState vm de dm
 stochasticLatticeRedistribution m (MkUniverseState vm de dm) =
   let newVM = applyMagicMaxelBoxInt m vm

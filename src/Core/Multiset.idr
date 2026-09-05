@@ -75,32 +75,26 @@ mutual
   boxDepthVect [] = 0
   boxDepthVect (x :: xs) = max (boxDepth x) (boxDepthVect xs)
 
-mutual
-  ||| Canonical total ordering on BoxSpec trees:
-  ||| 1. Leaf < Node
-  ||| 2. Compare branch count
-  ||| 3. Lexicographical comparison of child trees
-  public export
-  orderBoxSpec : BoxSpec -> BoxSpec -> Ordering
-  orderBoxSpec Leaf Leaf = EQ
-  orderBoxSpec Leaf (Node _) = LT
-  orderBoxSpec (Node _) Leaf = GT
-  orderBoxSpec (Node {n=n1} xs) (Node {n=n2} ys) =
-    case compare n1 n2 of
-      LT => LT
-      GT => GT
-      EQ => case decEq n1 n2 of
-              Yes Refl => orderBoxSpecVect xs ys
-              No _     => EQ
-
-  public export
-  orderBoxSpecVect : {n : Nat} -> Vect n BoxSpec -> Vect n BoxSpec -> Ordering
-  orderBoxSpecVect [] [] = EQ
-  orderBoxSpecVect (x :: xs) (y :: ys) =
-    case orderBoxSpec x y of
-      LT => LT
-      GT => GT
-      EQ => orderBoxSpecVect xs ys
+||| Canonical total ordering on BoxSpec trees:
+||| 1. Leaf < Node
+||| 2. Compare branch count
+||| 3. Lexicographical comparison of child trees
+public export
+orderBoxSpec : BoxSpec -> BoxSpec -> Ordering
+orderBoxSpec Leaf Leaf = EQ
+orderBoxSpec Leaf (Node _) = LT
+orderBoxSpec (Node _) Leaf = GT
+orderBoxSpec (Node xs) (Node ys) = orderVect xs ys
+  where
+    orderVect : Vect n BoxSpec -> Vect m BoxSpec -> Ordering
+    orderVect [] [] = EQ
+    orderVect [] (_ :: _) = LT
+    orderVect (_ :: _) [] = GT
+    orderVect (a :: as) (b :: bs) =
+      case orderBoxSpec a b of
+        LT => LT
+        GT => GT
+        EQ => orderVect as bs
 
 public export
 Ord BoxSpec where
