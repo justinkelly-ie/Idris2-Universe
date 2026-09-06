@@ -21,6 +21,7 @@ modules =         Compound.AstrophysicalAggregation
         , Compound.SymplecticIntegrator
         , Compound.VelocityLensing
         , Core.BoxInt
+        , Core.CosmicScaleTransform
         , Core.Multiset
         , Core.MultisetTree
         , Core.OnSeq

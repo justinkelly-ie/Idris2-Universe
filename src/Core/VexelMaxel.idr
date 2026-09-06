@@ -782,24 +782,35 @@ isMagicMaxel {n=2} (MkMagicMaxel [[a1,a2],[b1,b2]]) sigma =
   natEq (b1+b2) sigma &&
   natEq (a1+b1) sigma &&
   natEq (a2+b2) sigma
-isMagicMaxel {n} m sigma =
-  let allFinsList = allFinList n
-      allRows = map (\i => magicRowSum i m) allFinsList
-      allCols = map (\j => magicColSum j m) allFinsList
-  in all (\r => natEq r sigma) allRows && all (\c => natEq c sigma) allCols
+isMagicMaxel {n} (MkMagicMaxel g) sigma =
+  let rowSums = map (foldl (+) 0) g
+      colSums = foldl (zipWith (+)) (replicate n 0) g
+  in all (\r => natEq r sigma) rowSums && all (\c => natEq c sigma) colSums
+
+||| Vector dot product for natural numbers without allocating intermediate lists or vectors.
+public export
+rowDotNat : {n : Nat} -> Vect n Nat -> Vect n Nat -> Nat
+rowDotNat [] [] = 0
+rowDotNat (r :: rs) (v :: vs) = (r * v) + rowDotNat rs vs
+
+||| Vector dot product for BoxInt without allocating intermediate lists or vectors.
+public export
+rowDotBoxInt : {n : Nat} -> Vect n Nat -> Vect n BoxInt -> BoxInt
+rowDotBoxInt [] [] = intToBoxInt 0
+rowDotBoxInt (r :: rs) (v :: vs) = (intToBoxInt (cast r) * v) + rowDotBoxInt rs vs
 
 ||| Applies a MagicMaxel doubly stochastic transition to a vector of token counts:
 ||| v_out_i = Sum_j M_ij * v_in_j.
 public export
 applyMagicMaxel : {n : Nat} -> MagicMaxel n -> Vect n Nat -> Vect n Nat
 applyMagicMaxel (MkMagicMaxel g) v =
-  map (\row => foldl (+) 0 (zipWith (*) row v)) g
+  map (\row => rowDotNat row v) g
 
 ||| Applies a MagicMaxel doubly stochastic transition directly to BoxInt lattice states:
 public export
 applyMagicMaxelBoxInt : {n : Nat} -> MagicMaxel n -> Vect n BoxInt -> Vect n BoxInt
 applyMagicMaxelBoxInt (MkMagicMaxel g) v =
-  map (\row => foldl (+) (intToBoxInt 0) (zipWith (\c, b => intToBoxInt (cast c) * b) row v)) g
+  map (\row => rowDotBoxInt row v) g
 
 ||| Audits 3x3 Magic Maxel (Lo Shu Square, Sigma=15):
 ||| Row sums = 15, Col sums = 15, preserves token mass on uniform state.
