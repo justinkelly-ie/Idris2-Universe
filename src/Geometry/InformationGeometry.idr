@@ -175,17 +175,11 @@ wassersteinDiffHelper (a :: as) (b :: bs) =
       dNat = boxToNat d
   in dNat :: wassersteinDiffHelper as bs
 
-||| Monomorphic Nat addition for fast elaborator reduction without typeclass dispatch.
-public export
-natAdd : Nat -> Nat -> Nat
-natAdd Z y = y
-natAdd (S k) y = S (natAdd k y)
-
 ||| Monomorphic sum of Nat list for fast elaborator reduction.
 public export
 sumNatList : List Nat -> Nat
 sumNatList [] = 0
-sumNatList (x :: xs) = natAdd x (sumNatList xs)
+sumNatList (x :: xs) = x + sumNatList xs
 
 ||| Computes exact 1D discrete Wasserstein-1 (Earth Mover's) Distance:
 ||| W_1(P, Q) = sum_k |CDF_P(k) - CDF_Q(k)|
@@ -216,7 +210,7 @@ auditWassersteinMetricAxiomsProof =
      natEq wPQ 4 &&
      natEq wQR 4 &&
      natEq wPR 8 &&
-     natLTE wPR (natAdd wPQ wQR)
+     natLTE wPR (wPQ + wQR)
 
 ------------------------------------------------------------------------
 -- 9. EXACT QUANTUM RELATIVE ENTROPY & KLEIN'S INEQUALITY

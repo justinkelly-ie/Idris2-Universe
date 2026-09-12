@@ -20,15 +20,9 @@ modules =         Compound.AstrophysicalAggregation
         , Compound.LinearEpsilonRouting
         , Compound.SymplecticIntegrator
         , Compound.VelocityLensing
-        , Core.BoxInt
         , Core.CosmicScaleTransform
-        , Core.Multiset
-        , Core.MultisetTree
         , Core.OnSeq
         , Core.Polynomial
-        , Core.Polynumber
-        , Core.UnixelFraction
-        , Core.VexelMaxel
         , Derivation.FreeEnergyMinimizer
         , Derivation.FunctorialScalePipeline
         , Derivation.MultisetAdvancedTensorEngine
