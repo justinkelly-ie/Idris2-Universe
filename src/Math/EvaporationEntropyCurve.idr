@@ -1,7 +1,8 @@
 module Math.EvaporationEntropyCurve
 
 import Core.BoxInt
-import Core.Multiset
+import Geometry.Applicative
+import Geometry.MetricalBounds
 import Core.VexelMaxel
 import Core.UnixelFraction
 import Math.FourGeometries
@@ -22,6 +23,13 @@ discretePageEntropy : (t : Nat) -> (totalBudget : Nat) -> Nat
 discretePageEntropy t totalBudget =
   let remTime = minus totalBudget t
   in if t <= remTime then t else remTime
+
+||| Evaluates exact discrete Page Entanglement Entropy
+||| parameterized by QTT 0 metric space parameter (0 space : VexelSpace d c):
+||| Erases metric bounds from runtime binaries while enforcing compile-time spatial safety.
+public export
+metricalPageEntropy : {d : Nat} -> {c : MetricColor} -> (0 space : VexelSpace d c) -> (t : Nat) -> (totalBudget : Nat) -> Nat
+metricalPageEntropy space t totalBudget = discretePageEntropy t totalBudget
 
 ||| Proves that the Page Time t_Page is exactly half of the total budget:
 ||| t_Page = totalBudget / 2.

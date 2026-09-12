@@ -52,6 +52,21 @@ applyPullbackTreeExpansion (MkMaxelTransform _ _ (MkBox tPairs)) targetTree =
                wMult = wN * cast (unwrapBox wT)
            in if wMult > 0 then insertTokenTree a wMult acc else acc) Leaf tPairs
 
+||| Fuses two sequential MaxelTransforms T1: a -> b and T2: b -> c into a single composite transform T21: a -> c.
+public export
+composeMaxelTransforms : Ord a => Ord b => Ord c => MaxelTransform a b -> MaxelTransform b c -> MaxelTransform a c
+composeMaxelTransforms (MkMaxelTransform s1 f1 (MkBox t1)) (MkMaxelTransform s2 f2 (MkBox t2)) =
+  let fusedPairs = [ ((a, c), w1 * w2)
+                   | ((a, b1), w1) <- t1
+                   , ((b2, c), w2) <- t2
+                   , b1 == b2 ]
+  in MkMaxelTransform s1 f1 (MkBox fusedPairs)
+
+||| Applies a fused composite MaxelTransform in a single O(log N) tree traversal pass.
+public export
+applyFusedTreeTransform : Ord a => Ord b => Ord c => MaxelTransform a b -> MaxelTransform b c -> MultisetTree a -> MultisetTree c
+applyFusedTreeTransform t1 t2 tree = applyPushforwardTreeContraction (composeMaxelTransforms t1 t2) tree
+
 ------------------------------------------------------------------------
 -- 3. COMPILE-TIME MACRO REFLECTION INVARIANT AUDIT
 ------------------------------------------------------------------------

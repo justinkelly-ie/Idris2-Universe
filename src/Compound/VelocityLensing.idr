@@ -42,7 +42,7 @@ relativisticDeflectionAngle : (gConst : BoxInt) -> (mass : BoxInt) -> (impactB :
 relativisticDeflectionAngle g m b drag scale =
   let num = intToBoxInt 4 * g * m * scale
       denom = b * (intToBoxInt 1 + drag)
-      denVal = if unwrapBox denom == 0 then intToBoxInt 1 else denom
+      denVal = if denom == intToBoxInt 0 then intToBoxInt 1 else denom
   in num `div` denVal
 
 ------------------------------------------------------------------------

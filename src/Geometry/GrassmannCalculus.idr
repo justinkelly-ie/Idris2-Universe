@@ -55,10 +55,10 @@ public export
 lookupEdge : (Unixel, Unixel) -> Maxel -> BoxInt
 lookupEdge (MkUnixel u, MkUnixel v) m =
   let direct = lookupPixel (MkPixel u v) m
-  in if unwrapBox direct /= 0
+  in if direct /= intToBoxInt 0
        then direct
        else let rev = lookupPixel (MkPixel v u) m
-            in if unwrapBox rev /= 0
+            in if rev /= intToBoxInt 0
                  then -rev
                  else intToBoxInt 0
 
@@ -212,7 +212,7 @@ public export
 verifyColorNeutralVoxelFlux : Vect 6 BoxInt -> Bool
 verifyColorNeutralVoxelFlux faceFluxes =
   let totalFlux = sum (toList faceFluxes)
-  in unwrapBox totalFlux == 0
+  in totalFlux == intToBoxInt 0
 
 ------------------------------------------------------------------------
 -- 5. DISCRETE POYNTING THEOREM & HOLOGRAPHIC AREA LAW
@@ -225,7 +225,7 @@ evaluateDiscretePoyntingConservation : Vect 6 BoxInt -> BoxInt -> Bool
 evaluateDiscretePoyntingConservation faceFluxes deltaU =
   let totalBoundaryFlux = sum (toList faceFluxes)
       netBalance = totalBoundaryFlux + deltaU
-  in unwrapBox netBalance == 0
+  in netBalance == intToBoxInt 0
 
 ||| Audits that a localized EM field packet conserves total energy (Boundary Flux + Delta U == 0).
 public export

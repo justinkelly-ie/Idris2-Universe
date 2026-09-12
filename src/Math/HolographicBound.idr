@@ -5,6 +5,7 @@ import Core.Multiset
 import Core.VexelMaxel
 import Core.UnixelFraction
 import Math.FourGeometries
+import Geometry.Applicative
 
 %default total
 
@@ -23,6 +24,13 @@ boundarySurfaceArea l = 6 * (l * l)
 public export
 holographicCapacity : (dimL : Nat) -> Nat
 holographicCapacity l = boundarySurfaceArea l
+
+||| Computes discrete Bekenstein-Hawking holographic entropy capacity
+||| parameterized by QTT 0 metric space parameter (0 space : VexelSpace d c):
+||| Erases metric bounds from runtime binaries while enforcing compile-time spatial safety.
+public export
+metricalHolographicCapacity : {d : Nat} -> {c : MetricColor} -> (0 space : VexelSpace d c) -> (dimL : Nat) -> Nat
+metricalHolographicCapacity space l = boundarySurfaceArea l
 
 ||| Saturates bulk tokens against the holographic boundary area:
 ||| Any tokens exceeding S_holo are relocated to the Dark Matter remainder ledger.

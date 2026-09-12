@@ -62,8 +62,8 @@ auditSymplecticInvarianceProof =
       j22 = lookupPixel (MkPixel 2 2) jSq
       j12 = lookupPixel (MkPixel 1 2) jSq
       j21 = lookupPixel (MkPixel 2 1) jSq
-  in unwrapBox j11 == -1 && unwrapBox j22 == -1 &&
-     unwrapBox j12 == 0  && unwrapBox j21 == 0
+  in j11 == intToBoxInt (-1) && j22 == intToBoxInt (-1) &&
+     j12 == intToBoxInt 0    && j21 == intToBoxInt 0
 
 ------------------------------------------------------------------------
 -- DOUBLY STOCHASTIC EPSILON PACKET ROUTING (MAGIC MAXELS)

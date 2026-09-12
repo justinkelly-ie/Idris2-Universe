@@ -18,20 +18,18 @@ import Data.Nat
 ||| m_gamma = level * couplingSquared (on exact integer BoxInt units).
 public export
 discreteChernSimonsMass : (level : BoxInt) -> (couplingSquared : BoxInt) -> BoxInt
-discreteChernSimonsMass k e2 =
-  let kVal = unwrapBox k
-      eVal = unwrapBox e2
-  in intToBoxInt (kVal * eVal)
+discreteChernSimonsMass k e2 = k * e2
 
 ||| Proves Parity & Time-Reversal Oddness of Chern-Simons mass:
 ||| Under P or T inversion: k -> -k => m_gamma -> -m_gamma.
 public export
 isChernSimonsParityOdd : (level : BoxInt) -> (couplingSquared : BoxInt) -> Bool
 isChernSimonsParityOdd k e2 =
-  let mOrig = unwrapBox (discreteChernSimonsMass k e2)
-      kInv  = intToBoxInt (- (unwrapBox k))
-      mInv  = unwrapBox (discreteChernSimonsMass kInv e2)
-  in mInv == - mOrig
+  let mOrig = discreteChernSimonsMass k e2
+      kInv  = negate k
+      mInv  = discreteChernSimonsMass kInv e2
+  in mInv == negate mOrig
+
 
 ------------------------------------------------------------------------
 -- 2. CONSTRUCTIVE FORMAL AUDIT PROOFS

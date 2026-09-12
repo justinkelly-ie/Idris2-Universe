@@ -157,7 +157,7 @@ public export
 cumulativeDistributionHelper : BoxInt -> List BoxInt -> List BoxInt
 cumulativeDistributionHelper acc [] = []
 cumulativeDistributionHelper acc (x :: xs) =
-  let next = acc + x
+  let next = addBox acc x
   in next :: cumulativeDistributionHelper next xs
 
 ||| Computes cumulative sum (CDF) of a discrete token distribution vector:
@@ -171,9 +171,21 @@ wassersteinDiffHelper : List BoxInt -> List BoxInt -> List Nat
 wassersteinDiffHelper [] _ = []
 wassersteinDiffHelper _ [] = []
 wassersteinDiffHelper (a :: as) (b :: bs) =
-  let d = unwrapBox (a - b)
-      dNat = integerToNat (if d >= 0 then d else -d)
+  let d = absBox (subBox a b)
+      dNat = boxToNat d
   in dNat :: wassersteinDiffHelper as bs
+
+||| Monomorphic Nat addition for fast elaborator reduction without typeclass dispatch.
+public export
+natAdd : Nat -> Nat -> Nat
+natAdd Z y = y
+natAdd (S k) y = S (natAdd k y)
+
+||| Monomorphic sum of Nat list for fast elaborator reduction.
+public export
+sumNatList : List Nat -> Nat
+sumNatList [] = 0
+sumNatList (x :: xs) = natAdd x (sumNatList xs)
 
 ||| Computes exact 1D discrete Wasserstein-1 (Earth Mover's) Distance:
 ||| W_1(P, Q) = sum_k |CDF_P(k) - CDF_Q(k)|
@@ -182,7 +194,7 @@ discreteWasserstein1D : List BoxInt -> List BoxInt -> Nat
 discreteWasserstein1D p q =
   let cdfP = cumulativeDistribution p
       cdfQ = cumulativeDistribution q
-  in sum (wassersteinDiffHelper cdfP cdfQ)
+  in sumNatList (wassersteinDiffHelper cdfP cdfQ)
 
 ||| Audits Discrete Wasserstein-1 Metric Axioms:
 ||| 1. Identity: W_1(P, P) == 0
@@ -199,12 +211,12 @@ auditWassersteinMetricAxiomsProof =
       wQP = discreteWasserstein1D q p
       wQR = discreteWasserstein1D q r
       wPR = discreteWasserstein1D p r
-  in wPP == 0 &&
-     wPQ == wQP &&
-     wPQ == 4 &&
-     wQR == 4 &&
-     wPR == 8 &&
-     wPR <= wPQ + wQR
+  in natEq wPP 0 &&
+     natEq wPQ wQP &&
+     natEq wPQ 4 &&
+     natEq wQR 4 &&
+     natEq wPR 8 &&
+     natLTE wPR (natAdd wPQ wQR)
 
 ------------------------------------------------------------------------
 -- 9. EXACT QUANTUM RELATIVE ENTROPY & KLEIN'S INEQUALITY
@@ -217,8 +229,8 @@ multisetRelativeEntropy : Eq a => (targetP : Box a) -> (modelQ : Box a) -> Nat
 multisetRelativeEntropy (MkBox []) _ = 0
 multisetRelativeEntropy (MkBox ((k, w) :: xs)) q =
   let wQ = lookupBox k q
-      diff = unwrapBox w - unwrapBox wQ
-      posDiff = boxToNat (MkBoxInt diff)
+      diff = subBoxLinear w wQ
+      posDiff = boxToNat diff
   in posDiff + multisetRelativeEntropy (MkBox xs) q
 
 

@@ -88,7 +88,7 @@ formalDerivativePolynumber (MkPolynumber []) = zeroPolynumber
 formalDerivativePolynumber (MkPolynumber (_ :: cs)) =
   let diffList : Nat -> List BoxInt -> List BoxInt
       diffList _ [] = []
-      diffList idx (c :: rest) = (intToBoxInt (natToInteger idx) * c) :: diffList (S idx) rest
+      diffList idx (c :: rest) = (natToBoxInt idx * c) :: diffList (S idx) rest
   in trimPolynumber (MkPolynumber (diffList 1 cs))
 
 

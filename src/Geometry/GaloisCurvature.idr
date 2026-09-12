@@ -28,7 +28,7 @@ galoisEinsteinTensor (MkUniverseState vm de dm) =
 public export
 requiresGaloisExpansion : {vm, de, dm : Nat} -> UniverseState vm de dm -> Bool
 requiresGaloisExpansion st =
-  unwrapBox (galoisEinsteinTensor st) > 10
+  galoisEinsteinTensor st > intToBoxInt 10
 
 ------------------------------------------------------------------------
 -- 2. CONSTRUCTIVE FORMAL AUDIT PROOFS FOR GALOIS CURVATURE

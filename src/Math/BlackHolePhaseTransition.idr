@@ -4,6 +4,7 @@ import Core.BoxInt
 import Core.UnixelFraction
 import Math.HolographicBound
 import Math.HorizonRadiation
+import Geometry.Applicative
 import Data.List
 import Data.Fin
 import Data.Vect
@@ -47,12 +48,13 @@ Eq HawkingPageSystem where
 -- 2. DISCRETE PHASE DETERMINATION
 ------------------------------------------------------------------------
 
-||| Evaluates discrete Hawking-Page phase transition at temperature T:
+||| Evaluates discrete Hawking-Page phase transition at temperature T
+||| parameterized by QTT 0 metric space parameter (0 space : VexelSpace d c):
 ||| For T < T_HP = 50 tokens: Delta F > 0 -> Thermal AdS Gas is globally stable.
 ||| For T > T_HP = 50 tokens: Delta F < 0 -> Large AdS Black Hole dominates.
 public export
-evaluateHawkingPageTransition : (temp : BoxInt) -> HawkingPageSystem
-evaluateHawkingPageTransition temp =
+evaluateHawkingPageTransition : {d : Nat} -> {c : MetricColor} -> (0 space : VexelSpace d c) -> (temp : BoxInt) -> HawkingPageSystem
+evaluateHawkingPageTransition space temp =
   let critT = intToBoxInt 50
       -- Delta F = (T_HP - T) * 10
       deltaF = (critT - temp) * intToBoxInt 10
@@ -70,8 +72,10 @@ evaluateHawkingPageTransition temp =
 public export
 auditBlackHolePhaseTransitionProof : Bool
 auditBlackHolePhaseTransitionProof =
-  let lowT = evaluateHawkingPageTransition (intToBoxInt 30)
-      highT = evaluateHawkingPageTransition (intToBoxInt 70)
+  let blankTensor = Metric (replicate 3 (replicate 3 zeroUnixelFraction))
+      0 blankSpace = Space {color = Elliptic} blankTensor
+      lowT = evaluateHawkingPageTransition blankSpace (intToBoxInt 30)
+      highT = evaluateHawkingPageTransition blankSpace (intToBoxInt 70)
       
       tLowPhase = currentPhase lowT == ThermalAdSGas
       tHighPhase = currentPhase highT == LargeAdSBlackHole

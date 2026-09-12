@@ -6,8 +6,10 @@ import Core.VexelMaxel
 import Core.UnixelFraction
 import Math.FourGeometries
 import Math.HolographicBound
+import Geometry.Applicative
 import Data.List
 import Data.Nat
+import Data.Vect
 
 %default total
 
@@ -39,11 +41,12 @@ discreteHawkingTemperature area =
   let denom = if area == 0 then 1 else 2 * area
   in MkUnixelFraction (intToBoxInt 1) (MkUnixel denom)
 
-||| Executes one discrete Hawking evaporation quantum step:
+||| Executes one discrete Hawking evaporation quantum step
+||| parameterized by QTT 0 metric space parameter (0 space : VexelSpace d c):
 ||| Relocates discrete quantum dM = 1 from black hole mass to emitted thermal bath.
 public export
-stepHawkingEvaporation : HorizonState -> HorizonState
-stepHawkingEvaporation (MkHorizonState area m r) =
+stepHawkingEvaporation : {d : Nat} -> {c : MetricColor} -> (0 space : VexelSpace d c) -> HorizonState -> HorizonState
+stepHawkingEvaporation space (MkHorizonState area m r) =
   let mVal = unwrapBox m
       rVal = unwrapBox r
       dM = if mVal > 0 then 1 else 0
@@ -64,7 +67,9 @@ stepHawkingEvaporation (MkHorizonState area m r) =
 public export
 auditHorizonRadiationProof : Bool
 auditHorizonRadiationProof =
-  case (discreteHawkingTemperature 54, stepHawkingEvaporation (MkHorizonState 54 (intToBoxInt 10) (intToBoxInt 0))) of
+  let blankTensor = Metric (replicate 3 (replicate 3 zeroUnixelFraction))
+      0 blankSpace = Space {color = Elliptic} blankTensor
+  in case (discreteHawkingTemperature 54, stepHawkingEvaporation blankSpace (MkHorizonState 54 (intToBoxInt 10) (intToBoxInt 0))) of
     (MkUnixelFraction tNum (MkUnixel tDen), MkHorizonState _ m r) =>
       (tNum == intToBoxInt 1) && natEq tDen 108 &&
       (m == intToBoxInt 9) &&

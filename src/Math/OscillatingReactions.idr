@@ -41,16 +41,17 @@ public export
 stepBZReaction : BZState -> BZState
 stepBZReaction (MkBZState x y z) =
   let -- 1. Activator dynamic: surges if Y is low, quenches if Y is high
-      deltaX = if unwrapBox y < 10 then intToBoxInt 20 else intToBoxInt (-15)
+      deltaX = if y < intToBoxInt 10 then intToBoxInt 20 else intToBoxInt (-15)
       -- 2. Inhibitor dynamic: depleted during autocatalysis, surges if Z is elevated
-      deltaY = if unwrapBox z > 15 then intToBoxInt 15 else if unwrapBox x > 20 then intToBoxInt (-2) else intToBoxInt 0
+      deltaY = if z > intToBoxInt 15 then intToBoxInt 15 else if x > intToBoxInt 20 then intToBoxInt (-2) else intToBoxInt 0
       -- 3. Catalyst dynamic: oxidizes when X is high, reduces when regenerating Y
-      deltaZ = if unwrapBox x > 20 then intToBoxInt 10 else intToBoxInt (-5)
+      deltaZ = if x > intToBoxInt 20 then intToBoxInt 10 else intToBoxInt (-5)
       
-      x' = if unwrapBox (x + deltaX) < 0 then intToBoxInt 0 else x + deltaX
-      y' = if unwrapBox (y + deltaY) < 0 then intToBoxInt 0 else y + deltaY
-      z' = if unwrapBox (z + deltaZ) < 0 then intToBoxInt 0 else z + deltaZ
+      x' = if boxNegative (x + deltaX) then intToBoxInt 0 else x + deltaX
+      y' = if boxNegative (y + deltaY) then intToBoxInt 0 else y + deltaY
+      z' = if boxNegative (z + deltaZ) then intToBoxInt 0 else z + deltaZ
   in MkBZState x' y' z'
+
 
 ||| Simulates n discrete time steps of the BZ oscillator.
 public export

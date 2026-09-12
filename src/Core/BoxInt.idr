@@ -35,6 +35,21 @@ natEq Z Z = True
 natEq (S k) (S j) = natEq k j
 natEq _ _ = False
 
+||| Exact structural less-than-or-equal comparison for Nat reducing at compile time.
+public export
+natLTE : Nat -> Nat -> Bool
+natLTE Z _ = True
+natLTE (S k) Z = False
+natLTE (S k) (S j) = natLTE k j
+
+public export
+addBox : BoxInt -> BoxInt -> BoxInt
+addBox (MkBoxInt a) (MkBoxInt b) = MkBoxInt (a + b)
+
+public export
+subBox : BoxInt -> BoxInt -> BoxInt
+subBox (MkBoxInt a) (MkBoxInt b) = MkBoxInt (a - b)
+
 public export
 addBoxLinear : (1 a : BoxInt) -> (1 b : BoxInt) -> BoxInt
 addBoxLinear (MkBoxInt a) (MkBoxInt b) = MkBoxInt (a + b)
@@ -54,9 +69,24 @@ Neg BoxInt where
   negate (MkBoxInt a) = MkBoxInt (-a)
   (-) (MkBoxInt a) (MkBoxInt b) = MkBoxInt (a - b)
 
+||| Converts a BoxInt absolute value to Nat without typeclass dispatch.
+public export
+boxToNat : BoxInt -> Nat
+boxToNat (MkBoxInt v) =
+  case integerToNat v of
+    Z => integerToNat (-v)
+    S k => S k
+
+||| Computes absolute value of a BoxInt natively without typeclass dispatch.
+public export
+absBox : BoxInt -> BoxInt
+absBox (MkBoxInt v) =
+  MkBoxInt (natToInteger (boxToNat (MkBoxInt v)))
+
 public export
 Eq BoxInt where
   (MkBoxInt a) == (MkBoxInt b) = a == b
+
 
 
 
@@ -129,10 +159,24 @@ mod : BoxInt -> BoxInt -> BoxInt
 mod (MkBoxInt a) (MkBoxInt b) = 
   if b == 0 then MkBoxInt 0 else MkBoxInt (a `mod` b)
 
-||| Tests if a BoxInt is strictly negative.
+||| Direct non-typeclass check for BoxInt zero equality for fast elaborator reduction.
+public export
+boxZero : BoxInt -> Bool
+boxZero (MkBoxInt 0) = True
+boxZero _ = False
+
+||| Tests if a BoxInt is strictly positive without typeclass dispatch.
+public export
+boxPositive : BoxInt -> Bool
+boxPositive (MkBoxInt a) =
+  case integerToNat a of
+    Z => False
+    S _ => True
+
+||| Tests if a BoxInt is strictly negative without typeclass dispatch.
 public export
 boxNegative : BoxInt -> Bool
 boxNegative (MkBoxInt a) =
-  case a < 0 of
-    True => True
-    False => False
+  case integerToNat (-a) of
+    Z => False
+    S _ => True

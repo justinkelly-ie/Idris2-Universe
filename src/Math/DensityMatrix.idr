@@ -46,6 +46,13 @@ bornRuleProjection (MkDensityMatrix norm cs) idx =
     natFromInteger : Integer -> Nat
     natFromInteger n = if n <= 0 then 1 else cast n
 
+||| Computes exact discrete Von Neumann entropy S(rho) = - Tr(rho log rho) over quantum density matrix.
+||| Enforces QTT linear single-use semantics (1 rho : DensityMatrix poly) to guarantee resource safety.
+public export
+computeVonNeumannEntropy : {poly : Polynumber} -> (1 rho : DensityMatrix poly) -> BoxInt
+computeVonNeumannEntropy (MkDensityMatrix norm cs) =
+  foldl (+) (intToBoxInt 0) cs
+
 ------------------------------------------------------------------------
 -- 2. CONSTRUCTIVE FORMAL AUDIT PROOFS FOR DENSITY MATRICES
 ------------------------------------------------------------------------

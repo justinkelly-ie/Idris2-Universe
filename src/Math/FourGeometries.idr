@@ -112,7 +112,7 @@ parabolicDissipationAction v1 v2 = evaluateQuadrance ParabolicGeom v1 v2
 public export
 substrateCausalArrowAction : Maxel -> Bool
 substrateCausalArrowAction g =
-  unwrapBox (g22 g) == 0 && unwrapBox (g12 g) == 1
+  g22 g == intToBoxInt 0 && g12 g == intToBoxInt 1
 
 ------------------------------------------------------------------------
 -- 4. COSMIC BUDGET DECOMPOSITION ACROSS THE 4 GEOMETRIES
@@ -158,10 +158,10 @@ auditFourGeometriesDeterminantsProof =
       detHyp = geometryDeterminant HyperbolicGeom
       detPar = geometryDeterminant ParabolicGeom
       detSub = geometryDeterminant SubstrateGeom
-  in unwrapBox detEll == 1 &&
-     unwrapBox detHyp == (-1) &&
-     unwrapBox detPar == 0 &&
-     unwrapBox detSub == (-1)
+  in detEll == intToBoxInt 1 &&
+     detHyp == intToBoxInt (-1) &&
+     detPar == intToBoxInt 0 &&
+     detSub == intToBoxInt (-1)
 
 ||| Audits the Cosmic Synthesis of the 4 Geometries:
 ||| 1. Quadrance of (1, 1) under Hyperbolic is exactly 0 (Lightcone).
@@ -177,11 +177,7 @@ auditFourGeometriesCosmicSynthesisProof =
       bTotal = cosmicBudgetByGeometry EllipticGeom +
                cosmicBudgetByGeometry HyperbolicGeom +
                cosmicBudgetByGeometry ParabolicGeom
-      okHyp = case unwrapBox qHyp of
-                0 => True
-                _ => False
-      okEll = case unwrapBox qEll of
-                1 => True
-                _ => False
+      okHyp = qHyp == intToBoxInt 0
+      okEll = qEll == intToBoxInt 1
       okTot = natEq bTotal 210
   in okHyp && okEll && okTot

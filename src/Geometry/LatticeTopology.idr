@@ -185,4 +185,4 @@ discreteLaplacianBoxel b =
 public export
 auditToroidalBoxelFluxProof : Boxel -> Bool
 auditToroidalBoxelFluxProof b =
-  unwrapBox (totalBoxelWeight (discreteLaplacianBoxel b)) == 0
+  totalBoxelWeight (discreteLaplacianBoxel b) == intToBoxInt 0

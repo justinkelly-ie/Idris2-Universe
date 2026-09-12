@@ -69,12 +69,12 @@ metricDeterminant2D = detMetric
 public export
 classifyMetricGeometry : MetricTensor2D -> String
 classifyMetricGeometry m =
-  if unwrapBox (g22 m) == 0 && unwrapBox (g12 m) /= 0
+  if g22 m == intToBoxInt 0 && g12 m /= intToBoxInt 0
     then "Substrate"
-    else let detG = unwrapBox (detMetric m)
-         in if detG > 0
+    else let detG = detMetric m
+         in if detG > intToBoxInt 0
               then "Elliptic"
-              else if detG < 0
+              else if detG < intToBoxInt 0
                 then "Hyperbolic"
                 else "Parabolic"
 

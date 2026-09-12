@@ -34,9 +34,9 @@ public export
 Show ScientificObservation where
   show (MkScientificObservation q l t low up u c doi) =
     "ScientificObservation(" ++ q ++ " [Law " ++ show l ++ "]" ++
-    " | Theory: " ++ show (unwrapBox (num t)) ++ "/" ++ show (index (den t)) ++ " " ++ u ++
-    " | Measured: [" ++ show (unwrapBox (num low)) ++ "/" ++ show (index (den low)) ++
-    ", " ++ show (unwrapBox (num up)) ++ "/" ++ show (index (den up)) ++ "]" ++
+    " | Theory: " ++ show (num t) ++ "/" ++ show (index (den t)) ++ " " ++ u ++
+    " | Measured: [" ++ show (num low) ++ "/" ++ show (index (den low)) ++
+    ", " ++ show (num up) ++ "/" ++ show (index (den up)) ++ "]" ++
     " | Ref: " ++ c ++ ")"
 
 ------------------------------------------------------------------------

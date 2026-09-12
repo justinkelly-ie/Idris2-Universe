@@ -107,13 +107,6 @@ scaleUnixelFraction : BoxInt -> UnixelFraction -> UnixelFraction
 scaleUnixelFraction s (MkUnixelFraction n d) = MkUnixelFraction (s * n) d
 
 ||| Structurally bounded integer to Nat conversion ensuring total compile-time reduction.
-||| Converts a BoxInt absolute value to Nat without recursive fuel degradation.
-public export
-boxToNat : BoxInt -> Nat
-boxToNat (MkBoxInt v) =
-  let pos = if v >= 0 then v else -v
-  in integerToNat pos
-
 
 ||| Inversion / Division: (n1/d1) / (n2/d2) where n2 != 0.
 public export

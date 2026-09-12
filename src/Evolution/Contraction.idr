@@ -21,7 +21,7 @@ extractRemainderToken : Polynumber -> BoxInt
 extractRemainderToken r =
   let degBox = natToBoxInt (polynumberDegree r)
       valBox = evalPolynumber r (intToBoxInt 1)
-  in degBox + (if unwrapBox valBox >= 0 then valBox else negate valBox)
+  in degBox + absBox valBox
 
 ||| Linearly folds active visible matter field tokens into the background Dark Energy ROM.
 ||| Guarantees zero phantom token loss by transferring active VM token mass into DE with QTT linearity.
